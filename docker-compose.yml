@@ -1,0 +1,80 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+        container_name: zt_php
+        ports:
+            - "6001:6001"
+        volumes:
+            - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+            - ./:/var/www
+        networks:
+            - zt_api
+        depends_on:
+            - redis
+
+    proxy:
+        image: nginx:1.25
+        container_name: zt_nginx
+        working_dir: /var/www
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./docker/nginx/log/:/var/log/nginx
+        networks:
+            - zt_api
+        depends_on:
+            - php
+
+    db:
+        image: mysql:8.0
+        container_name: zt_db
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - zt_mysql_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        networks:
+            - zt_api
+
+    phpmyadmin:
+        image: phpmyadmin:latest
+        container_name: zt_pma
+        environment:
+            PMA_HOST: db
+            PMA_USER: ${DB_USERNAME}
+            PMA_PASSWORD: ${DB_PASSWORD}
+            UPLOAD_LIMIT: 1G
+        restart: always
+        ports:
+            - "8086:80"
+        links:
+            - db
+        networks:
+            - zt_api
+
+    redis:
+        image: redis:7.2
+        container_name: zt_redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+        environment:
+            ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - ./docker/cache/redis:/data
+        networks:
+            - zt_api
+
+networks:
+    zt_api:
+
+volumes:
+    zt_mysql_data:

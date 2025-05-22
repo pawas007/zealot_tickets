@@ -1,0 +1,3 @@
+<template>
+    Домашня сторінка
+</template>
