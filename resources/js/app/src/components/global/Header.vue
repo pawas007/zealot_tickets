@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {useAuthStore} from "@/stores/auth";
+import {useHasRole} from '@/composables/useHasRole'
 
+const {hasRole} = useHasRole()
 const auth = useAuthStore()
 
 </script>
@@ -13,6 +15,7 @@ const auth = useAuthStore()
                 Tickets
             </router-link>
             <router-link
+                v-if="hasRole('admin')"
                 :to="{ name: 'users' }"
                 class="text-blue-600 hover:text-blue-800 font-medium">
                 Users

@@ -33,7 +33,14 @@ fetchUsers()
 
 <template>
     <div class="max-w-4xl mx-auto p-6 bg-white rounded shadow">
-        <h1 class="text-2xl font-bold mb-6">Users</h1>
+        <div class="flex items-center justify-between">
+            <h1 class="text-4xl font-bold mb-6 text-gray-800">Users</h1>
+            <router-link
+                :to="{ name: 'users-create' }"
+                class="x-4 p-2 rounded bg-blue-600 text-white cursor-pointer">
+                Create
+            </router-link>
+        </div>
 
         <div v-if="loading" class="text-center text-gray-500 py-10">
             Loading users...

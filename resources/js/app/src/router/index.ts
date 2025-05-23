@@ -1,5 +1,5 @@
-// src/router/index.ts
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
+import {useAuthStore} from '@/stores/auth'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -45,6 +45,18 @@ const routes: RouteRecordRaw[] = [
         meta: {requiresAuth: true, roles: ['admin']}
     },
     {
+        path: '/users/create',
+        name: 'users-create',
+        component: () => import('@/views/users/UserCreate.vue'),
+        meta: {requiresAuth: true, roles: ['admin']}
+    },
+    {
+        path: '/403',
+        name: 'forbidden',
+        component: () => import('@/views/errors/403.vue'),
+        meta: {layout: 'blank'},
+    },
+    {
         path: '/:catchAll(.*)',
         redirect: '/',
     },
@@ -55,14 +67,22 @@ const router = createRouter({
     routes,
 })
 router.beforeEach((to, from, next) => {
+    const auth = useAuthStore()
     const isAuthenticated = !!localStorage.getItem('token')
-    if (to.meta.requiresAuth && !isAuthenticated) {
-        next({name: 'login'})
-    } else if (to.meta.requiresAuth === false && isAuthenticated) {
-        next({name: 'home'})
-    } else {
-        next()
+    const requiresAuth = to.meta.requiresAuth === true
+    const isPublic = to.meta.requiresAuth === false
+    const allowedRoles = to.meta.roles as string[] | undefined
+    const userRole = auth.userRole
+    if (requiresAuth && !isAuthenticated) {
+        return next({name: 'login'})
     }
+    if (isPublic && isAuthenticated) {
+        return next({name: 'home'})
+    }
+    if (allowedRoles && (!userRole || !allowedRoles.includes(userRole))) {
+        return next({name: 'forbidden'})
+    }
+    next()
 })
 
 export default router

@@ -72,7 +72,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 1.Додати відновлення паролю для юзерів
 2.Редагування профілів юзерів
 3.Редагування тікета
-4.В рамках завдання можна булоб використати бібліотеку Spatie role & permissions що булоб логічніше вона надає широкий спектр налаштувань по ролям ітд...
+4.В рамках завдання можна булоб використати бібліотеку Spatie role & permissions  що булоб логічніше вона надає широкий спектр налаштувань по ролям ітд (На фронты былыотекою CASL)...
 5.Рефреш токен (зараз він стоїть на 1 рік)
 
 Хочу ще раз наголосити я старався в рамках тестового  реалізувати основну концепцію та посил задачі
@@ -82,4 +82,3 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 php artisan reverb:start --host=0.0.0.0 --port=6001 --debug
 
-TODO: 1.Create user 2.Role middleware

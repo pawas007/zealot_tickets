@@ -4,3 +4,9 @@ export interface User {
     email: string
     role: string
 }
+
+
+export interface Role {
+    id: number
+    name: string
+}
