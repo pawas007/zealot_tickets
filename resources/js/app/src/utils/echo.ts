@@ -5,7 +5,7 @@ import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-    authEndpoint: import.meta.env.VITE_API_DEFAULT_URL+'broadcasting/auth',
+    authEndpoint: import.meta.env.VITE_API_DEFAULT_URL + 'broadcasting/auth',
     broadcaster: 'reverb',
     key: import.meta.env.VITE_REVERB_APP_KEY,
     wsHost: import.meta.env.VITE_REVERB_HOST,

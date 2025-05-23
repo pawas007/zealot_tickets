@@ -18,6 +18,7 @@ class TicketCommentResource extends JsonResource
         return [
             'id'          => $this->id,
             'user_name'   => $this->user?->name,
+            'user_id'   => $this->user?->id,
             'text'        => $this->text,
             'created_at'  => $this->created_at,
         ];

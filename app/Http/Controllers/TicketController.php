@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TicketCreateRequest;
 use App\Http\Resources\TicketCollection;
 use App\Http\Resources\TicketWithMessagesResource;
+use App\Http\Resources\UserResource;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -23,15 +24,17 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TicketCreateRequest $request)
+    public function store(TicketCreateRequest $request): JsonResponse
     {
-        Ticket::create([
+        $ticket = Ticket::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
+            'status' => $request->status,
             'description' => $request->description,
         ]);
 
         return response()->json([
+            'ticket_id' => $ticket->id,
             'message' => 'Ticket created',
         ]);
     }
@@ -47,10 +50,10 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Ticket $ticket): JsonResponse
     {
         $ticket->delete();
-        return response()->json(['message' => 'Ticket deleted']);
+        return response()->json(['messa ge' => 'Ticket deleted']);
     }
 
 
@@ -59,7 +62,7 @@ class TicketController extends Controller
      */
     public function initData(): JsonResponse
     {
-        $data = ['statuses' => Ticket::STATUSES];
+        $data = ['statuses' => Ticket::STATUSES, 'users' => UserResource::collection(User::all())];
         return response()->json($data);
     }
 }

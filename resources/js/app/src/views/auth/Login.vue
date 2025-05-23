@@ -8,6 +8,7 @@ const {handleSubmit, errors, setErrors} = useForm()
 const router = useRouter()
 const {api} = useApi()
 
+// TODO: delete init data
 const {value: email, handleBlur: emailBlur} = useField('email', 'required|email',
     {
         initialValue: 'admin1@example.com'
@@ -42,7 +43,6 @@ const submit = handleSubmit(async (values) => {
                     name="name"
                     v-model="email"
                     @blur="emailBlur"
-
                     class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div class="text-blue-600" v-if="errors.email">
@@ -57,7 +57,6 @@ const submit = handleSubmit(async (values) => {
                     @blur="passwordBlur"
                     name="password"
                     type="password"
-
                     class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div class="text-blue-600" v-if="errors.password">
@@ -66,10 +65,17 @@ const submit = handleSubmit(async (values) => {
             </div>
             <button
                 @click="submit"
-                class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-            >
+                class="w-full bg-blue-600 text-white py-2 rounded-md  transition cursor-pointer">
                 Login
             </button>
+            <div>
+                <p>No account?</p>
+                <router-link
+                    :to="{ name: 'register' }"
+                    class="text-blue-600 hover:text-blue-800 font-medium">
+                    Register
+                </router-link>
+            </div>
         </form>
     </div>
 </template>

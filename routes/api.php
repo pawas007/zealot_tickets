@@ -12,10 +12,11 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['jwt.auth'])->group(function () {
+    Route::post('/log-out', [AuthController::class, 'logout']);
     Route::get('/auth-user', [AuthController::class, 'user']);
 
     Route::middleware(['role:admin'])->group(function () {
-        Route::apiResource('users', UserController::class)->only(['store', 'destroy']);
+        Route::apiResource('users', UserController::class)->only(['store']);
     });
 
     Route::middleware(['role:admin|user'])->group(function () {

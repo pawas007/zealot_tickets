@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -14,11 +14,12 @@ class UserController extends Controller
 {
 
     /**
-     * @return AnonymousResourceCollection
+     * @return UserCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(): UserCollection
     {
-        return UserResource::collection(User::paginate(15));
+        $users = User::query()->paginate(5);
+        return new UserCollection($users);
     }
 
     /**
@@ -50,7 +51,6 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted']);
     }
-
 
 }
 

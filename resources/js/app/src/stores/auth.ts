@@ -9,10 +9,8 @@ export const useAuthStore = defineStore('auth', {
     getters: {
         isLoggedIn: (state) => !!state.user,
         userName: (state) => state.user?.name,
-        isAdmin: (state) => state.user?.role,
+        userRole: (state) => state.user?.role,
     },
-
-
     actions: {
         async fetchAuthUser() {
             const {api} = useApi()
@@ -22,6 +20,18 @@ export const useAuthStore = defineStore('auth', {
             } catch (error) {
                 console.error('Auth user fetch failed:', error)
                 this.user = null
+            }
+        },
+        async logOut() {
+            const {api} = useApi()
+            try {
+                await api.post('/log-out').then(() => {
+                    this.user = null
+                    localStorage.removeItem('token')
+                    window.location.href = '/login'
+                })
+            } catch (error) {
+                console.error('Auth user logout:', error)
             }
         }
     }

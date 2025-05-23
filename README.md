@@ -78,5 +78,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 Хочу ще раз наголосити я старався в рамках тестового  реалізувати основну концепцію та посил задачі
 У будь якому випадку функціонал який не описаний в задачі можу доопрацювати
 
+Також черги та сервер сокетів запускаються автоматично 
 
 php artisan reverb:start --host=0.0.0.0 --port=6001 --debug
+
+TODO: 1.Create user 2.Role middleware
