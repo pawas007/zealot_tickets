@@ -79,7 +79,8 @@ router.beforeEach((to, from, next) => {
     if (isPublic && isAuthenticated) {
         return next({name: 'home'})
     }
-    if (allowedRoles && (!userRole || !allowedRoles.includes(userRole))) {
+
+    if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
         return next({name: 'forbidden'})
     }
     next()

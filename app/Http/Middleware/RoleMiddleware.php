@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RoleMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request by role if need.
      *
      * @param Closure(Request): (Response) $next
      */

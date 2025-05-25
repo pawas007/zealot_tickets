@@ -15,15 +15,11 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/log-out', [AuthController::class, 'logout']);
     Route::get('/auth-user', [AuthController::class, 'user']);
 
-    Route::middleware(['role:admin'])->group(function () {
-        Route::apiResource('users', UserController::class)->only(['store']);
-    });
+    Route::get('ticket-data', [TicketController::class, 'initData']);
+    Route::apiResource('ticket', TicketController::class)->only(['index', 'show', 'store', 'destroy']);
+    Route::apiResource('ticket/{ticket}/comment', TicketCommentController::class)->only(['store', 'destroy']);
+    Route::apiResource('users', UserController::class)->only(['store','index']);
+    Route::get('roles', [RoleController::class, 'index']);
 
-    Route::middleware(['role:admin|user'])->group(function () {
-        Route::get('users', [UserController::class,'index']);
-        Route::get('roles', [RoleController::class, 'index']);
-        Route::apiResource('ticket', TicketController::class)->only(['index', 'show','store','destroy']);
-        Route::get('ticket-data', [TicketController::class,'initData']);
-        Route::apiResource('ticket/{ticket}/comment', TicketCommentController::class)->only(['store', 'destroy']);
-    });
+
 });

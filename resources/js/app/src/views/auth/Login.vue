@@ -23,6 +23,7 @@ const submit = handleSubmit(async (values) => {
     try {
         const response = await api.post('/login', values)
         localStorage.setItem('token', response.data.token)
+        window.Echo.options.auth.headers.Authorization = 'Bearer ' + response.data.token
         await router.push({name: 'home'})
     } catch (e) {
         setErrors({

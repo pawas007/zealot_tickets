@@ -67,7 +67,7 @@ const deleteComment = (id: number) => {
                     class="p-4 rounded-md shadow-sm border border-gray-200">
                     <div class="flex justify-between text-sm text-gray-500 mb-1">
                         <div>
-                            <span class="ml-2 italic text-gray-400 text-xs">{{ new Date(comment.created_at).toLocaleString() }}</span>
+                            <span class="ml-2 italic text-gray-400 text-xs">{{ new Date(comment.created_at).toLocaleString() }} - {{comment.user_name}}</span>
                         </div>
                         <button
                             v-if="canDelete(comment)"
